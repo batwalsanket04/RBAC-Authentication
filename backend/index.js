@@ -4,7 +4,7 @@ const cors=require('cors')
 const app=express();
 
 
-const PORT=process.env.PORT || 3000;
+const PORT=3000;
  
 // middlewares
 
@@ -16,8 +16,11 @@ app.use(express.urlencoded({extended:true}))
 
 const conn=require('./Config/DB_Connection')
 conn();
+const userRoute=require('./routes/Auth')
 
-app.get('/',(req,res)=>{
+app.use("/api/user",userRoute)
+
+app.get("/",(req,res)=>{
     res.send("API Working")
 })
 
