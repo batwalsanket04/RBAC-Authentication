@@ -2,6 +2,7 @@ const express=require('express')
 require('dotenv').config();
 const cors=require('cors')
 const app=express();
+const cookie=require('cookie-parser')
 
 
 const PORT=3000;
@@ -10,6 +11,7 @@ const PORT=3000;
 
 app.use(express.json());
 app.use(cors());
+app.use(cookie())
 app.use(express.urlencoded({extended:true}))
 
 //connections
@@ -17,6 +19,7 @@ app.use(express.urlencoded({extended:true}))
 const conn=require('./Config/DB_Connection')
 conn();
 const userRoute=require('./routes/Auth')
+const AdminRoute=require('./routes/Admin')
 
 app.use("/api/user",userRoute)
 

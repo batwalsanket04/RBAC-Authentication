@@ -49,13 +49,13 @@ const login = async (req, res) => {
  
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(404).json({ message: "Invalid credentials" });
     }
 
  
@@ -68,6 +68,11 @@ const login = async (req, res) => {
       { expiresIn: "2h" }
     );
  
+    res.cookie('token',token,{
+      httpOnly:true,
+      secure:false,
+      maxAge:3600000
+    });
     res.status(201).json({
   success: true,
   message: "User Login Successfully",token,
